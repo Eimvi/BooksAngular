@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+}
+
+.filter {
+  margin-top: 10px;
+}
+
+#btn_add {
+  right: 25px;
+  bottom: 25px;
+  left: auto;
+  position: absolute;
+}
