@@ -1,10 +1,15 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+// Material
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+// Interfaces
 import { Autor } from '../../interfaces/autor.interface';
+// Services
 import { AutorsService } from '../../services/autors.service';
+// Components
 import { AutorModalComponent } from '../autor-modal/autor-modal.component';
 
 @Component({
@@ -12,17 +17,24 @@ import { AutorModalComponent } from '../autor-modal/autor-modal.component';
   templateUrl: './autors.component.html',
   styleUrls: ['./autors.component.css']
 })
-export class AutorsComponent implements OnInit, AfterViewInit {
+export class AutorsComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  subscription: Subscription = new Subscription();
 
   @ViewChild(MatSort) order!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dataSource = new MatTableDataSource<Autor>();
-  displayedColumns: string[] = ['name', 'lastname', 'gradoAcademico'];
+  displayedColumns: string[] = ['nombre', 'apellido', 'gradoAcademico'];
+
   constructor(private autorsService: AutorsService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.autorsService.authors;
+    this.getAutors();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -38,6 +50,15 @@ export class AutorsComponent implements OnInit, AfterViewInit {
     this.dialog.open(AutorModalComponent,{
       width: '350px'
     });
+  }
+
+  getAutors(): void{
+    this.subscription.add(
+      this.autorsService.getAutors()
+        .subscribe( (autors: Autor[]) => {
+          this.dataSource.data = autors;
+        })
+    )
   }
 
 }

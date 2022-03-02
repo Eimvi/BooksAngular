@@ -1,19 +1,25 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Autor } from '../interfaces/autor.interface';
+import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutorsService {
 
-  private authorsList: Autor[] = [
-    { authorId: 1, name: 'Cris', lastname: 'Gallegos', gradoAcademico: 'Ing'},
-    { authorId: 2, name: 'Emma', lastname: 'Modesto', gradoAcademico: 'Ing'}
-  ]
+  private readonly URL: string = environment.baseUrl;
 
-  constructor() { }
+  private authorsList: Autor[] = []
+
+  constructor(private http: HttpClient) { }
 
   get authors(){
     return this.authorsList.slice();
+  }
+
+  getAutors(): Observable<Autor[]>{
+    return this.http.get<Autor[]>(`${this.URL}LibreriaAutor`);
   }
 }
