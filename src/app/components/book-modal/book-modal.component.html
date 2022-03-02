@@ -70,8 +70,8 @@
               formControlName="autor"
               required
               >
-              <mat-option *ngFor="let autor of autors" [value]="autor.name">
-                {{autor.name}}
+              <mat-option *ngFor="let autor of autors" [value]="autor.authorId">
+                {{autor.name + ' ' + autor.lastname}}
               </mat-option>
             </mat-select>
             <mat-error

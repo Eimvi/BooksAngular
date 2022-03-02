@@ -10,6 +10,8 @@ import { MatOption } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
 import { BooksService } from '../../services/books.service';
+import { Autor } from '../../interfaces/autor.interface';
+import { AutorsService } from '../../services/autors.service';
 
 @Component({
   selector: 'app-book-modal',
@@ -23,22 +25,18 @@ export class BookModalComponent implements OnInit {
 
   selectAutor: string = '';
   selectAutorTxt: string = '';
+  autors: Autor[] = [];
 
-  constructor(private _fb: FormBuilder, private booksService: BooksService){}
+  constructor(private _fb: FormBuilder,
+              private booksService: BooksService,
+              private autorsService: AutorsService){}
 
   ngOnInit(): void {
     this.createForm();
+    this.autors =  this.autorsService.authors;
   }
 
-  autors = [
-    {
-      name: 'Cristopher'
-    },{
-      name: 'Emmanuel'
-    },{
-      name: 'Gallegos'
-    }
-  ];
+
 
   createForm() {
     this.bookForm = this._fb.group({
