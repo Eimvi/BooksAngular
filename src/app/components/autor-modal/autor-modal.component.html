@@ -1,0 +1,73 @@
+<form
+  [formGroup]="authorForm"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  fxLayoutGap="10px"
+  (submit)="saveAuthor()"
+>
+  <h2 mat-dialog-title>Add new author</h2>
+  <mat-dialog-content>
+
+    <section class="author-modal" fxLayoutAlign="center">
+      <mat-card fxFlex="100%">
+
+          <mat-form-field>
+            <mat-label>Ingrese Nombre</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="example Author Cristopher"
+              name="name"
+              required
+              formControlName="name"
+              >
+            <mat-error
+            *ngIf="
+            authorForm.get('name')?.hasError('required') && authorForm.get('name')?.touched
+          "
+            >Debe ingresar el nombre</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Ingrese Apellidos</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="example Author Gallegos"
+              name="lastname"
+              required
+              formControlName="lastname"
+              >
+            <mat-error
+            *ngIf="
+            authorForm.get('lastname')?.hasError('required') && authorForm.get('lastname')?.touched
+          "
+            >Debe ingresar el apellido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Ingrese Grado Academico</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="example Ingeniero en Sistemas"
+              name="gradoAcademico"
+              required
+              formControlName="gradoAcademico"
+              >
+            <mat-error
+            *ngIf="
+            authorForm.get('gradoAcademico')?.hasError('required') && authorForm.get('gradoAcademico')?.touched
+          "
+            >Debe ingresar el grado academico</mat-error>
+          </mat-form-field>
+
+      </mat-card>
+    </section>
+
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="true">Cerrar</button>
+    <button type="submit" [disabled]="authorForm.invalid" mat-button [mat-dialog-close]="true">Guardar</button>
+  </mat-dialog-actions>
+</form>

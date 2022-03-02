@@ -24,6 +24,8 @@ import { SecurityService } from './services/security.service';
 import { BookModalComponent } from './components/book-modal/book-modal.component';
 
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { AutorsComponent } from './components/autors/autors.component';
+import { AutorModalComponent } from './components/autor-modal/autor-modal.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     ListComponent,
     NotFoundComponent,
     BooksComponent,
-    BookModalComponent
+    BookModalComponent,
+    AutorsComponent,
+    AutorModalComponent
   ],
   imports: [
     BrowserModule,

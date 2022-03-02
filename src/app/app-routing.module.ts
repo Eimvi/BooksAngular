@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { BooksComponent } from './components/books/books.component';
+import { AutorsComponent } from './components/autors/autors.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,9 @@ const routes: Routes = [
   },
   {
     path: 'books', component: BooksComponent
+  },
+  {
+    path: 'authors', component: AutorsComponent
   },
   {
     path: 'home', component: HomeComponent
