@@ -21,9 +21,11 @@ export class BooksComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) order!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  bookData: Books[] = [];
-  displayedColumns = ['title', 'description', 'autor', 'price'];
   dataSource = new MatTableDataSource();
+
+  bookData: Books[] = [];
+  displayedColumns: string[] = ['title', 'description', 'autor', 'price'];
+
 
   constructor(private booksService: BooksService, private dialog: MatDialog) { }
 
