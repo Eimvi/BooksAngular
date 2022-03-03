@@ -33,13 +33,13 @@ export class AutorsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getAutors();
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
   ngAfterViewInit(): void {
     this.dataSource.sort = this.order;
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   searchFilter(_event: Event): void{
@@ -47,9 +47,15 @@ export class AutorsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openDialog(){
-    this.dialog.open(AutorModalComponent,{
+    const dialogRef = this.dialog.open(AutorModalComponent,{
       width: '350px'
     });
+
+    dialogRef.afterClosed()
+    .subscribe( () => {
+
+      this.getAutors();
+    })
   }
 
   getAutors(): void{
