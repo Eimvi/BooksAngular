@@ -22,4 +22,8 @@ export class AutorsService {
   getAutors(): Observable<Autor[]>{
     return this.http.get<Autor[]>(`${this.URL}LibreriaAutor`);
   }
+
+  postAutor(autor: Autor){
+    return this.http.post<any>(`${this.URL}LibreriaAutor`, autor);
+  }
 }
