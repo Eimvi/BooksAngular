@@ -7,7 +7,7 @@
     <ul fxLayout fxLayoutGap="10px" class="navigation-menu">
       <li *ngIf="!userStatus"><a routerLink="/register" >Register</a></li>
       <li *ngIf="!userStatus"><a routerLink="/login" >Login</a></li>
-      <li *ngIf="userStatus"><a routerLink="/" >Home</a></li>
+      <li *ngIf="userStatus"><a routerLink="/home" >Home</a></li>
       <li (click)="logout()" *ngIf="userStatus"><a routerLink="/login" >Logout</a></li>
     </ul>
   </div>
