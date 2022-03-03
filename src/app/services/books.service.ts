@@ -1,30 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Books } from '../interfaces/books.interface';
 import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+import { environment } from 'src/environments/environment';
+
+import { PaginationBooks } from '../interfaces/pagination-books.interface';
+import { Books } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BooksService {
 
+  private readonly URL: string = environment.baseUrl;
+
   bookSubject: Subject<Books> = new Subject<Books>();
 
-  private booksList: Books[] = [
-    { bookId: 1, title: 'Algoritmos', description: 'Basic', autor: 'Cristopher', price: 1000 },
-    { bookId: 2, title: 'Bases', description: 'Advanced', autor: 'Abelicia', price: 2000 },
-    { bookId: 3, title: 'Algoritmos', description: 'Basic', autor: 'Cristopher', price: 1000 },
-    { bookId: 4, title: 'Bases', description: 'Advanced', autor: 'Abelicia', price: 2000 },
-    { bookId: 5, title: 'Algoritmos', description: 'Basic', autor: 'Cristopher', price: 1000 },
-    { bookId: 6, title: 'Bases', description: 'Advanced', autor: 'Abelicia', price: 2000 },
-    { bookId: 7, title: 'Algoritmos', description: 'Basic', autor: 'Cristopher', price: 1000 },
-    { bookId: 8, title: 'Bases', description: 'Advanced', autor: 'Abelicia', price: 2000 },
-    { bookId: 9, title: 'Algoritmos', description: 'Basic', autor: 'Cristopher', price: 1000 },
-    { bookId: 10, title: 'Bases', description: 'Advanced', autor: 'Abelicia', price: 2000 },
-    { bookId: 11, title: 'Algoritmos', description: 'Basic', autor: 'Cristopher', price: 1000 },
-    { bookId: 12, title: 'Bases', description: 'Advanced', autor: 'Abelicia', price: 2000 },
-  ]
+  private booksList: Books[] = []
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   get books(){
     return this.booksList;
@@ -33,5 +27,26 @@ export class BooksService {
   saveBook(book: Books){
     this.booksList.push(book);
     this.bookSubject.next(book);
+  }
+
+  getBooksPagination(libroPorPagina: number,
+                     paginaActual: number,
+                     sort: string, sortDirection:
+                     string, filterValue: any){
+
+      const req = {
+        pageSize: libroPorPagina,
+        page: paginaActual,
+        sort,
+        sortDirection,
+        filterValue
+      };
+
+      return this.http.post<PaginationBooks>(`${this.URL}Libro/pagination`, req);
+
+  }
+
+  postBook(book: Books){
+    return this.http.post<any>(`${this.URL}Libro`, book);
   }
 }
