@@ -1,7 +1,7 @@
 export interface Autor {
-  authorId: number;
+  id?: string;
   nombre: string;
-  apellidos: string;
+  apellido: string;
   gradoAcademico: string;
-  createdDate: Date;
+  createdDate?: Date;
 }
