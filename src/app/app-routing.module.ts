@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'books', component: BooksComponent
   },
   {
-    path: 'authors', component: AutorsComponent
+    path: 'autors', component: AutorsComponent
   },
   {
     path: 'home', component: HomeComponent
