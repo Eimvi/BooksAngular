@@ -17,13 +17,13 @@
               type="text"
               matInput
               placeholder="example Author Cristopher"
-              name="name"
+              name="nombre"
               required
-              formControlName="name"
+              formControlName="nombre"
               >
             <mat-error
             *ngIf="
-            authorForm.get('name')?.hasError('required') && authorForm.get('name')?.touched
+            authorForm.get('nombre')?.hasError('required') && authorForm.get('nombre')?.touched
           "
             >Debe ingresar el nombre</mat-error>
           </mat-form-field>
@@ -34,13 +34,13 @@
               type="text"
               matInput
               placeholder="example Author Gallegos"
-              name="lastname"
+              name="apellido"
               required
-              formControlName="lastname"
+              formControlName="apellido"
               >
             <mat-error
             *ngIf="
-            authorForm.get('lastname')?.hasError('required') && authorForm.get('lastname')?.touched
+            authorForm.get('apellido')?.hasError('required') && authorForm.get('apellido')?.touched
           "
             >Debe ingresar el apellido</mat-error>
           </mat-form-field>
