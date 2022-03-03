@@ -1,10 +1,12 @@
 <mat-nav-list>
+  <!-- User Login Successful -->
   <a mat-list-item routerLink="/"
     (click)="onMenuCloseDispatch()"
     *ngIf="statusUser">
     <mat-icon>home</mat-icon>
     <span class="navigation-list-label">Home</span>
   </a>
+  <!-- User Not Login -->
   <a mat-list-item routerLink="/register"
     (click)="onMenuCloseDispatch()"
     *ngIf="!statusUser">
@@ -17,10 +19,31 @@
     <mat-icon>login</mat-icon>
     <span class="navigation-list-label">Login</span>
   </a>
-  <mat-list-item>
+
+  <a mat-list-item
+     routerLink="/books"
+     (click)="onMenuCloseDispatch()"
+     >
+    <button *ngIf="statusUser" mat-icon-button>
+      <mat-icon>menu_book</mat-icon>
+      <span class="navigation-list-label">Libros</span>
+    </button>
+  </a>
+
+  <a mat-list-item
+     routerLink="/autors"
+     (click)="onMenuCloseDispatch()"
+     >
+    <button *ngIf="statusUser" mat-icon-button>
+      <mat-icon>face</mat-icon>
+      <span class="navigation-list-label">Autores</span>
+    </button>
+  </a>
+
+  <a mat-list-item>
     <button *ngIf="statusUser" (click)="logout()" mat-icon-button>
       <mat-icon>eject</mat-icon>
       <span class="navigation-list-label">Salir</span>
     </button>
-  </mat-list-item>
+  </a>
 </mat-nav-list>
