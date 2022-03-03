@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
-import { MatSelectChange } from '@angular/material/select';
 import { AutorsService } from '../../services/autors.service';
+import { Autor } from '../../interfaces/autor.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-autor-modal',
   templateUrl: './autor-modal.component.html',
   styleUrls: ['./autor-modal.component.css']
 })
-export class AutorModalComponent implements OnInit {
+export class AutorModalComponent implements OnInit, OnDestroy {
+
+  subscription: Subscription = new Subscription();
 
   authorForm!: FormGroup;
-
-  selectAutor: string = '';
 
   constructor(private _fb: FormBuilder, private autorsService: AutorsService){}
 
@@ -21,16 +21,41 @@ export class AutorModalComponent implements OnInit {
       this.createForm();
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   createForm() {
     this.authorForm = this._fb.group({
-      name: ['', Validators.required],
-      lastname: ['', Validators.required],
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
       gradoAcademico: ['', Validators.required]
     });
   }
 
   saveAuthor(){
-    console.log('ejecutado');
+    const autor: Autor = {
+      nombre: this.nombre?.value,
+      apellido: this.apellido?.value,
+      gradoAcademico: this.gradoAcademico?.value
+    }
+
+    this.subscription.add(
+      this.autorsService.postAutor(autor)
+        .subscribe( () => {})
+    )
+  }
+
+  get nombre(){
+    return this.authorForm.get('nombre');
+  }
+
+  get apellido(){
+    return this.authorForm.get('apellido');
+  }
+
+  get gradoAcademico(){
+    return this.authorForm.get('gradoAcademico');
   }
 
 }
