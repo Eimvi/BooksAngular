@@ -5,6 +5,8 @@ import {
   Validators,
   AbstractControl
 } from "@angular/forms";
+
+import { Subscription } from 'rxjs';
 import { LoginData } from 'src/app/interfaces';
 import { SecurityService } from 'src/app/services/security.service';
 
@@ -16,20 +18,30 @@ import { SecurityService } from 'src/app/services/security.service';
 })
 export class LoginComponent implements OnInit {
 
+  subscription: Subscription = new Subscription();
   loginForm!: FormGroup;
 
-  constructor(private _fb: FormBuilder, private securityService: SecurityService) { }
+  constructor(private _fb: FormBuilder,
+              private securityService: SecurityService) { }
 
   ngOnInit(): void {
     this.createForm();
   }
 
-  login(){
+  login(): void{
     const user: LoginData = {
-      email: '',
-      password: ''
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password
     }
-    this.securityService.loginUser(user);
+
+    this.subscription.add(
+      this.securityService.loginUser(user)
+        .subscribe(( response ) => {
+          console.log(response);
+
+        })
+    )
+
   }
 
   createForm() {
