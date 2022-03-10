@@ -6,6 +6,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { BooksComponent } from './components/books/books.component';
 import { AutorsComponent } from './components/autors/autors.component';
+import { AuthUserGuard } from './guards/auth-user.guard';
 
 const routes: Routes = [
   {
@@ -15,13 +16,13 @@ const routes: Routes = [
     path: 'login', component: LoginComponent
   },
   {
-    path: 'books', component: BooksComponent
+    path: 'books', component: BooksComponent, canActivate: [AuthUserGuard]
   },
   {
-    path: 'autors', component: AutorsComponent
+    path: 'autors', component: AutorsComponent, canActivate: [AuthUserGuard]
   },
   {
-    path: 'home', component: HomeComponent
+    path: 'home', component: HomeComponent, canActivate: [AuthUserGuard]
   },
   {
     path: '', redirectTo: '/login', pathMatch: 'full'
