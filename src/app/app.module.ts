@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
@@ -27,6 +27,7 @@ import { BookModalComponent } from './components/book-modal/book-modal.component
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AutorsComponent } from './components/autors/autors.component';
 import { AutorModalComponent } from './components/autor-modal/autor-modal.component';
+import { SeguridadInterceptor } from './interceptors/seguridad.interceptor';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,12 @@ import { AutorModalComponent } from './components/autor-modal/autor-modal.compon
   providers: [
     BooksService,
     SecurityService,
-    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'}
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SeguridadInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
