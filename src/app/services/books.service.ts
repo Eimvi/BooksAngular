@@ -24,6 +24,10 @@ export class BooksService {
     return this.booksList;
   }
 
+  getBooks(){
+    return this.http.get<Books[]>(`${this.URL}libro`);
+  }
+
   saveBook(book: Books){
     this.booksList.push(book);
     this.bookSubject.next(book);
@@ -42,11 +46,11 @@ export class BooksService {
         filterValue
       };
 
-      return this.http.post<PaginationBooks>(`${this.URL}Libro/pagination`, req);
+      return this.http.post<PaginationBooks>(`${this.URL}libro/pagination`, req);
 
   }
 
   postBook(book: Books){
-    return this.http.post<any>(`${this.URL}Libro`, book);
+    return this.http.post<any>(`${this.URL}libro`, book);
   }
 }
