@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { Subscription } from 'rxjs';
 // Material
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 // Interfaces
@@ -11,6 +11,7 @@ import { Autor } from '../../interfaces/autor.interface';
 import { AutorsService } from '../../services/autors.service';
 // Components
 import { AutorModalComponent } from '../autor-modal/autor-modal.component';
+import { PaginationAutors } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-autors',
@@ -27,6 +28,15 @@ export class AutorsComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource = new MatTableDataSource<Autor>();
   displayedColumns: string[] = ['nombre', 'apellido', 'gradoAcademico'];
 
+  timeout: any = null;
+  totalAutors: number = 0;
+  autorsPorPagina: number = 5;
+  paginaCombo: number[] = [1, 2, 5, 10];
+  paginaActual: number = 1;
+  sort: string = 'nombre';
+  sortDirection: string = 'asc';
+  filterValue!: any;
+
   constructor(private autorsService: AutorsService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -42,8 +52,20 @@ export class AutorsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  searchFilter(_event: Event): void{
-    this.dataSource.filter = (_event.currentTarget as HTMLInputElement).value;
+  searchFilter(_event: any): void{
+    // this.dataSource.filter = (_event.currentTarget as HTMLInputElement).value;
+    clearTimeout(this.timeout);
+    const $this = this;
+    this.timeout = setTimeout(() => {
+      if(_event.keyCode){
+        const filterValue = {
+          propiedad: 'nombre',
+          valor: _event.target.value
+        }
+        $this.filterValue = filterValue;
+        $this.getDataPagination();
+      }
+    },1000);
   }
 
   openDialog(){
@@ -58,12 +80,39 @@ export class AutorsComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
+    /* Get Data with events table */
+  eventPagination(event: PageEvent): void{
+    this.autorsPorPagina = event.pageSize;
+    this.paginaActual = event.pageIndex + 1;
+    this.getDataPagination();
+  }
+
+  orderColumn(event: any){
+    this.sort = event.active;
+    this.sortDirection = event.direction;
+    this.getDataPagination();
+  }
+
   getAutors(): void{
     this.subscription.add(
       this.autorsService.getAutors()
         .subscribe( (autors: Autor[]) => {
           this.dataSource.data = autors;
         })
+    )
+  }
+
+  getDataPagination(): void{
+    this.subscription.add(
+      this.autorsService.getAutorsPagination(this.autorsPorPagina,
+        this.paginaActual,
+        this.sort,
+        this.sortDirection,
+        this.filterValue)
+          .subscribe( (pagination: PaginationAutors) => {
+            this.dataSource = new MatTableDataSource<Autor>(pagination.data);
+            this.totalAutors = pagination.totalRows;
+          })
     )
   }
 
